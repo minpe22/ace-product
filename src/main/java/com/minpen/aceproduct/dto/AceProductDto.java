@@ -1,9 +1,10 @@
 package com.minpen.aceproduct.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.minpen.aceproduct.domain.AceProduct;
-import com.minpen.aceproduct.domain.Rating;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public record AceProductDto(
         @JsonProperty(value = "id", required = true)
         long productId,
@@ -26,7 +27,7 @@ public record AceProductDto(
         @JsonProperty(value = "rating", required = false)
         RatingDto rating) {
 
-    public static AceProductDto from(AceProduct aceProduct) {
+    public static AceProductDto fromWithDetails(AceProduct aceProduct) {
         return new AceProductDto(
                 aceProduct.getProductId(),
                 aceProduct.getTitle(),
@@ -35,6 +36,18 @@ public record AceProductDto(
                 aceProduct.getCategory(),
                 aceProduct.getImage(),
                 RatingDto.from(aceProduct.getRating())
+        );
+    }
+
+    public static AceProductDto from(AceProduct aceProduct) {
+        return new AceProductDto(
+                aceProduct.getProductId(),
+                aceProduct.getTitle(),
+                aceProduct.getPrice(),
+                null,
+                aceProduct.getCategory(),
+                aceProduct.getImage(),
+                null
         );
     }
 }
