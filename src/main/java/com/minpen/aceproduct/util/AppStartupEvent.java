@@ -22,8 +22,8 @@ public class AppStartupEvent implements ApplicationListener<ApplicationReadyEven
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
-        Pageable pageable = PageRequest.of(0, 100, Sort.by("productId"));
-        Iterable<AceProduct> aceProducts = this.aceProductService.getAllAceProducts(pageable, new AceProductSpecification(0.0, 0.0, List.of()));
-        aceProducts.forEach(System.out::println);
+//        Pageable pageable = PageRequest.of(0, 100, Sort.by("productId"));
+//        Iterable<AceProduct> aceProducts = this.aceProductService.getAllAceProducts(pageable, new AceProductSpecification(0.0, null, null));
+//        aceProducts.forEach(System.out::println);
     }
 }

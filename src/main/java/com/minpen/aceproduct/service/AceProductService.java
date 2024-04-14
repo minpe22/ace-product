@@ -56,7 +56,9 @@ public class AceProductService {
                         null
                 );
             }
-            return AceProduct.from(aceProductDto);
+            AceProduct product = AceProduct.from(aceProductDto);
+            this.aceProductRepository.save(product);
+            return product;
         }
 
         return aceProduct.get();

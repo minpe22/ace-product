@@ -3,8 +3,7 @@
 ## Description
 
 This service expose a JSON API that clients can call to fetch the data stored in the database. 
-If the data is not available in your database, 
-it will fetch it from the upstream API.
+If the data is not available in your database, it will fetch it from the upstream API.
 
 There are two endpoints:
 * Product listing endpoint:
@@ -15,6 +14,33 @@ There are two endpoints:
   - Method: GET
   - Action: Get specific product by id
   - URI: /products/{productid}
+
+It uses embedded database for easier setup and configuration. The general flow of each endpoint
+are described down below:
+
+```mermaid
+sequenceDiagram
+Client->>Server: Http Get Request: /products
+Server-->>Database: findAll
+Database -->> Server: if exists: list of products
+Server-->> FakeStoreAPI: Not found in Database, Http Get Request: /products
+FakeStoreAPI -->> Server: response: list of products
+Server -->> Database: store items
+Server -->>Database: findAll
+Database ->> Server: list of products
+Server ->> Client: response
+```
+
+```mermaid
+sequenceDiagram
+Client->>Server: Http Get Request: /products/{id}
+Server-->>Database: findById
+Database -->> Server: if exists: product with {id}
+Server-->> FakeStoreAPI: Not found in Database, Http Get Request: /products/{id}
+FakeStoreAPI -->> Server: response: product with {id}
+Server -->> Database: store the item
+Server ->> Client: response
+```
 
 ## Quick Start
 
